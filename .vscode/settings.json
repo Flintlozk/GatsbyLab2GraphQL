@@ -3,11 +3,11 @@
         "**/.git": true, // this is a default value
         "**/.DS_Store": true, // this is a default value
         "**/node_modules": true, // this excludes all folders
-        "**/logs": true,
+        "**/log*": true,
         "**/public": true,
         "**/.cache": true,
         "**/package-lock.json": true,
-        "**/yarn.lock": true
+        "**/yarn.lock": false
     },
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true,

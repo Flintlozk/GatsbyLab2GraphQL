@@ -5,26 +5,29 @@ import gql from 'graphql-tag';
 import Img from 'gatsby-image';
 
 export default ({ data }) => {
-    const books = data.cms.books;
-    console.log(data);
+    console.log('data->>',data);
+    const books = data.apolloData.books;
+    const users = data.apolloData.user;
     return (
         <div style={{ textAlign: 'center', width: '600px', margin: '50px auto' }}>
             {books.map((book, index) => (
                 <div key={index}>{book.title}</div>
             ))}
-            {data.cms.user.map((user, index) => (
+            {users.map((user, index) => (
                 <p>
                     {user.id} {user.name}
                 </p>
             ))}
-            <Img fixed={data.file.childImageSharp.fixed} />
+            <Img fluid={data.image1.childImageSharp.fluid} />
+            <Img fixed={data.image2.childImageSharp.fixed} />
+            <Img fixed={data.image3.childImageSharp.fixed} />
         </div>
     );
 };
 
 export const GatsbyQuery = graphql`
-    query {
-        cms {
+    {
+        apolloData:cms {
             books {
                 title
                 author
@@ -34,11 +37,23 @@ export const GatsbyQuery = graphql`
                 name
             }
         }
-        file(name: { eq: "image" }) {
+        image1:file(name: { eq: "image" }) {
             childImageSharp {
-                # Specify the image processing specifications right in the query.
-                # Makes it trivial to update as your page's design changes.
-                fixed(width: 125, height: 125) {
+                fluid(maxWidth: 150) {
+                    ...GatsbyImageSharpFluid
+                }
+            }
+        }
+        image2:file(name: { eq: "logo" }) {
+            childImageSharp {
+                fixed {
+                    ...GatsbyImageSharpFixed
+                }
+            }
+        }
+        image3:file(name: { eq: "search" }) {
+            childImageSharp {
+                fixed(width: 30,height:30) {
                     ...GatsbyImageSharpFixed
                 }
             }
